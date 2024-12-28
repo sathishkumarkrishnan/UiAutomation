@@ -15,6 +15,7 @@ public class LoginSteps extends Base {
         initializeDriver("chrome");
         driver.get("http://the-internet.herokuapp.com/login");
         loginPage = new LoginPage(driver);
+        System.out.println("Thread "+Thread.currentThread().getId());
     }
 
     @When("I enter the valid username and password")
@@ -22,6 +23,7 @@ public class LoginSteps extends Base {
         loginPage.enterUsername("tomsmith");
         loginPage.enterPassword("SuperSecretPassword!");
         loginPage.clickLoginButton();
+        System.out.println("Thread "+Thread.currentThread().getId());
     }
 
     @Then("I should see the secure area")
@@ -37,6 +39,7 @@ public class LoginSteps extends Base {
         loginPage.enterUsername("invalidUser");
         loginPage.enterPassword("invalidPassword");
         loginPage.clickLoginButton();
+        System.out.println("Thread "+Thread.currentThread().getId());
     }
 
     @Then("I should see an error message")
@@ -44,6 +47,7 @@ public class LoginSteps extends Base {
         String errorMessage = loginPage.getErrorMessage();
         Assert.assertTrue(errorMessage.contains("Your username is invalid!"),
                 "Expected error message not found!");
+        System.out.println("Thread "+Thread.currentThread().getId());
         tearDown();
     }
 }
