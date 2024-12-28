@@ -1,3 +1,5 @@
+<!--suite name="Login Test Suite" parallel="methods" thread-count="2"-->
+<!DOCTYPE suite SYSTEM "testng.dtd">
 <suite name="Login Test Suite">
     <test name="Login Test">
         <classes>
