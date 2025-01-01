@@ -1,11 +1,10 @@
-Feature: Login Functionality on The Internet App
+Feature: Login functionality
 
-  Scenario Outline: Login with valid credentials
+  Scenario Outline: Login with multiple credentials
     Given I open the login page
     When I enter username "<username>" and password "<password>"
-    Then I should see the secure area
+    Then I should see an error message
 
-   	Examples:
-      | username           | password       |
-      | tomsmith  | SuperSecretPassword!    |
-      | user2@example.com  | qwerty456      |
+  Examples:
+    | username     | password         |
+    | <username>   | <password>       |

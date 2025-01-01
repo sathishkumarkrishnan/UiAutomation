@@ -8,26 +8,35 @@ import java.net.SocketException;
 import java.time.Duration;
 
 public class Base {
-    protected static WebDriver driver;
     protected static WebDriverWait wait;
 
+    public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
+
     public static void initializeDriver(String browser) throws SocketException {
-    	if (browser.equalsIgnoreCase("chrome")) {
+        WebDriver localDriver;
+        if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
-            driver = new org.openqa.selenium.chrome.ChromeDriver();
+            localDriver = new org.openqa.selenium.chrome.ChromeDriver();
         } else if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
-            driver = new org.openqa.selenium.firefox.FirefoxDriver();
+            localDriver = new org.openqa.selenium.firefox.FirefoxDriver();
         } else {
             throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
-        driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        localDriver.manage().window().maximize();
+        driver.set(localDriver);
+        wait = new WebDriverWait(localDriver, Duration.ofSeconds(20));
     }
 
     public static void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
         }
     }
+
 }
